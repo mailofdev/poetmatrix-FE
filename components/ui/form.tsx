@@ -7,6 +7,7 @@ export function TextField({
   defaultValue,
   errors,
   autoComplete,
+  optional = false,
 }: {
   label: string;
   name: string;
@@ -14,6 +15,7 @@ export function TextField({
   defaultValue?: string;
   errors?: string[];
   autoComplete?: string;
+  optional?: boolean;
 }) {
   const messageId = `${name}-error`;
   return (
@@ -27,7 +29,7 @@ export function TextField({
         autoComplete={autoComplete}
         aria-invalid={errors?.length ? true : undefined}
         aria-describedby={errors?.length ? messageId : undefined}
-        required
+        required={optional ? undefined : true}
       />
       {errors?.length ? (
         <span id={messageId} className="font-normal text-red-700 dark:text-red-300">

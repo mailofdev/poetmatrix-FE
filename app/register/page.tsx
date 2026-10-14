@@ -10,7 +10,7 @@ export default function RegisterPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold tracking-tight">Create an account</h1>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          Readers browse published work. Writers can also keep drafts.{" "}
+          New accounts start as readers. You can become a writer from your account.{" "}
           <TextLink href="/login">Sign in</TextLink>
         </p>
       </div>

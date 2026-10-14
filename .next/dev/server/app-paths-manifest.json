@@ -4,7 +4,9 @@
   "/(protected)/write/[id]/page": "app/(protected)/write/[id]/page.js",
   "/(protected)/write/page": "app/(protected)/write/page.js",
   "/api/auth/refresh/route": "app/api/auth/refresh/route.js",
+  "/catalog/page": "app/catalog/page.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js",
+  "/plans/page": "app/plans/page.js",
   "/register/page": "app/register/page.js"
 }

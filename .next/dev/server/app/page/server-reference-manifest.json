@@ -30,6 +30,16 @@
       "exportedName": "resetPasswordAction",
       "filename": "lib/auth/actions.ts"
     },
+    "60e10c5052aaf7c8d9ed9d918d4225dc454034f40e": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/auth/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "exportedName": "googleAction",
+      "filename": "lib/auth/actions.ts"
+    },
     "60e395780b26714d09b9cd2e66783ce9fcb599ff4e": {
       "workers": {
         "app/page": {

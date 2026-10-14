@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { registerAction } from "@/lib/auth/actions";
 import type { ActionState } from "@/lib/validation/auth";
-import { FormError, SelectField, SubmitButton, TextField } from "../ui/form";
+import { GoogleButton } from "./google-button";
+import { FormError, SubmitButton, TextField } from "../ui/form";
 
 const initial: ActionState = {};
 
@@ -25,17 +26,9 @@ export function RegisterForm() {
         autoComplete="new-password"
         errors={state.fieldErrors?.password}
       />
-      <SelectField
-        label="Role"
-        name="role"
-        defaultValue="reader"
-        errors={state.fieldErrors?.role}
-      >
-        <option value="reader">Reader</option>
-        <option value="writer">Writer</option>
-      </SelectField>
       <FormError message={state.error} />
       <SubmitButton>{pending ? "Creating account…" : "Create account"}</SubmitButton>
+      <GoogleButton />
     </form>
   );
 }

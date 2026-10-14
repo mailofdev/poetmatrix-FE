@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { connection } from "next/server";
-import { ContentForm } from "@/components/content/content-form";
-import { deleteContentAction } from "@/lib/content/actions";
+import { notFound, redirect } from "next/navigation";
+import { PieceEditor } from "@/components/content/piece-editor";
+import { backendFetch, readJson } from "@/lib/api/backend";
+import type { Piece } from "@/lib/api/types";
+import { resolveActor } from "@/lib/auth/actor";
+import { ACCESS_COOKIE } from "@/lib/auth/session-cookie";
 import { getSession } from "@/lib/auth/session";
-import { loadContent } from "@/lib/content/actions";
-
-export const metadata: Metadata = { title: "Edit piece" };
+import { deleteContentAction, loadPiece } from "@/lib/content/actions";
 
 export default async function EditPiecePage({
   params,
@@ -13,36 +15,28 @@ export default async function EditPiecePage({
   params: Promise<{ id: string }>;
 }) {
   await connection();
-  const { id } = await params;
-  const [user, content] = await Promise.all([getSession(), loadContent(id)]);
-  const canEdit =
-    user?.role === "superAdmin" ||
-    (user?.role === "writer" && content.authorId === user.id);
-
-  if (!canEdit) {
-    return (
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-12 sm:px-10">
-        <h1 className="text-3xl font-semibold tracking-tight">{content.title}</h1>
-        <p className="mt-2 text-sm text-zinc-500">{content.genre}</p>
-        <p className="mt-6 whitespace-pre-wrap leading-8">{content.writings}</p>
-      </main>
-    );
+  const user = await getSession();
+  const actor = resolveActor(user);
+  if (actor !== "writer" && actor !== "superadmin") {
+    redirect("/");
   }
-
+  const { id } = await params;
+  const piece = await loadPiece(id);
+  if (actor === "writer" && piece.authorId !== user?.id) {
+    notFound();
+  }
+  const token = (await cookies()).get(ACCESS_COOKIE)?.value;
+  const featuresResponse = await backendFetch("/api/v1/content/editor", { token });
+  const features = featuresResponse.ok
+    ? await readJson<{ images: boolean; tables: boolean; video: boolean; source: boolean }>(featuresResponse)
+    : { images: false, tables: false, video: false, source: false };
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-12 sm:px-10">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-3xl font-semibold tracking-tight">Edit piece</h1>
-        <form action={deleteContentAction.bind(null, content.id)}>
-          <button
-            className="text-sm font-medium text-red-700 underline-offset-4 hover:underline dark:text-red-300"
-            type="submit"
-          >
-            Delete
-          </button>
-        </form>
-      </div>
-      <ContentForm content={content} />
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-12">
+      <h1 className="text-3xl font-semibold">Edit</h1>
+      <PieceEditor piece={piece as Piece} features={features} />
+      <form action={deleteContentAction.bind(null, id)}>
+        <button className="text-sm text-red-700" type="submit">Delete</button>
+      </form>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { logoutAction } from "@/lib/auth/actions";
+import { resolveActor } from "@/lib/auth/actor";
 import { getSession } from "@/lib/auth/session";
 
 export function SiteHeader() {
@@ -34,10 +35,13 @@ async function HeaderSession() {
     );
   }
 
+  const actor = resolveActor(user);
   return (
     <nav className="flex items-center gap-4 text-sm font-medium" aria-label="Account">
-      <Link href="/library">Library</Link>
-      {user.role === "reader" ? null : <Link href="/write">Write</Link>}
+      <Link href="/catalog">Catalog</Link>
+      {actor === "superadmin" ? <Link href="/admin">Admin</Link> : <Link href="/library">Library</Link>}
+      {actor === "writer" ? <Link href="/write">Write</Link> : null}
+      {actor === "reader" || actor === "writer" ? <Link href="/notifications">Inbox</Link> : null}
       <Link href="/account">Account</Link>
       <form action={logoutAction}>
         <button className="underline-offset-4 hover:underline" type="submit">

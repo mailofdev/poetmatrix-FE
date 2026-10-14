@@ -6,6 +6,7 @@
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-outline-style: solid;
     }
   }
 }
@@ -336,8 +337,16 @@
     margin-top: calc(var(--spacing) * 3);
   }
 
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+  }
+
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
+  }
+
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
   }
 
   .line-clamp-3 {
@@ -386,8 +395,24 @@
     height: 100%;
   }
 
+  .min-h-20 {
+    min-height: calc(var(--spacing) * 20);
+  }
+
+  .min-h-24 {
+    min-height: calc(var(--spacing) * 24);
+  }
+
+  .min-h-32 {
+    min-height: calc(var(--spacing) * 32);
+  }
+
   .min-h-56 {
     min-height: calc(var(--spacing) * 56);
+  }
+
+  .min-h-64 {
+    min-height: calc(var(--spacing) * 64);
   }
 
   .min-h-full {
@@ -422,6 +447,10 @@
     flex-direction: column;
   }
 
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+
   .items-center {
     align-items: center;
   }
@@ -444,6 +473,10 @@
 
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
   }
 
   .gap-4 {
@@ -519,6 +552,10 @@
     background-color: var(--color-zinc-50);
   }
 
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
   }
@@ -529,6 +566,14 @@
 
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
+  }
+
+  .py-1 {
+    padding-block: var(--spacing);
+  }
+
+  .py-2 {
+    padding-block: calc(var(--spacing) * 2);
   }
 
   .py-3 {
@@ -653,8 +698,16 @@
     color: var(--color-zinc-700);
   }
 
+  .capitalize {
+    text-transform: capitalize;
+  }
+
   .uppercase {
     text-transform: uppercase;
+  }
+
+  .underline {
+    text-decoration-line: underline;
   }
 
   .underline-offset-4 {
@@ -664,6 +717,11 @@
   .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
 
   .transition-colors {
@@ -783,6 +841,12 @@ body {
 @property --tw-tracking {
   syntax: "*";
   inherits: false
+}
+
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
 }
 
 /*# sourceMappingURL=app_globals_css_css_1igg3k2-ikub5._.single.css.map*/

@@ -14,9 +14,6 @@ export const loginSchema = z.object({
 
 export const registerSchema = loginSchema.extend({
   password: passwordSchema,
-  role: z.enum(["reader", "writer"], {
-    error: "Choose reader or writer.",
-  }),
 });
 
 export const forgotPasswordSchema = z.object({
@@ -28,10 +25,14 @@ export const resetPasswordSchema = z.object({
   password: passwordSchema,
 });
 
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1).max(128),
+  newPassword: passwordSchema,
+});
+
 export type ActionState = {
   error?: string;
   message?: string;
-  developmentResetToken?: string;
   fieldErrors?: Record<string, string[] | undefined>;
 };
 

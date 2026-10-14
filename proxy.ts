@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PROTECTED = ["/library", "/write", "/account"];
+const PROTECTED = [
+  "/library",
+  "/write",
+  "/account",
+  "/onboarding",
+  "/notifications",
+  "/following",
+  "/settings",
+  "/admin",
+  "/activity",
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -29,5 +39,12 @@ export const config = {
     "/write/:path*",
     "/account",
     "/account/:path*",
+    "/onboarding",
+    "/notifications",
+    "/following",
+    "/settings",
+    "/admin",
+    "/admin/:path*",
+    "/activity",
   ],
 };

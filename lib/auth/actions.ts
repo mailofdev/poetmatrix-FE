@@ -45,7 +45,6 @@ export async function registerAction(
   const parsed = registerSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
-    role: formData.get("role"),
   });
   if (!parsed.success) {
     return { fieldErrors: fieldErrors(parsed.error) };
@@ -70,7 +69,7 @@ export async function registerAction(
     redirect("/login");
   }
   await persistSession(await readJson<IssuedSession>(login));
-  redirect("/library");
+  redirect("/onboarding");
 }
 
 export async function logoutAction(): Promise<void> {
@@ -105,16 +104,25 @@ export async function forgotPasswordAction(
   if (!response.ok) {
     return { error: await readError(response) };
   }
-  const body = await readJson<{
-    message?: string;
-    developmentResetToken?: string;
-  }>(response);
+  const body = await readJson<{ message?: string }>(response);
   return {
     message:
       body.message ??
-      "If an account exists, reset instructions were issued.",
-    developmentResetToken: body.developmentResetToken,
+      "If an account exists, reset instructions were sent by email.",
   };
+}
+
+export async function googleAction(idToken: string, next?: string): Promise<void> {
+  const response = await backendFetch("/api/v1/auth/google", {
+    method: "POST",
+    body: JSON.stringify({ idToken }),
+  });
+  if (!response.ok) {
+    redirect("/login");
+  }
+  const session = await readJson<IssuedSession>(response);
+  await persistSession(session);
+  redirect(session.created ? "/onboarding" : safeNextPath(next));
 }
 
 export async function resetPasswordAction(
